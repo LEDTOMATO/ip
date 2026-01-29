@@ -1,62 +1,129 @@
 import java.util.Scanner;
 
 public class Orange {
+    private static final String LINE = "____________________________________________________________";
+    private static final int MAX_TASKS = 100;
+
+    private static Task[] tasks = new Task[MAX_TASKS];
+    private static int taskCount = 0;
+
     public static void main(String[] args) {
-        String line = "____________________________________________________________\n";
-        System.out.println(line);
-        System.out.println("Hello! I'm Orange :)\n");
-        System.out.println("What can I do for you?\n");
-        System.out.println(line);
+        greet();
 
         Scanner scanner = new Scanner(System.in);
 
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
-
         while (true) {
             String input = scanner.nextLine();
+            String command = getCommandWord(input);
 
-            //Exit
-            if (input.equals("bye")) {
-                System.out.println(line);
-                System.out.println("Bye. Hope to see you again soon!");
-                System.out.println(line);
-                break;
-            }
+            switch (command) {
+                case "bye":
+                    exit();
+                    return;
 
-            //Show List
-            if (input.equals("list")) {
-                System.out.println(line);
-                System.out.println("Here are the tasks in your list:");
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + ". " + tasks[i]);
-                }
-                System.out.println(line);
-            } else if (input.startsWith("mark ")) {//Mark done task
-                int index = Integer.parseInt(input.substring(5)) - 1;
-                tasks[index].markDone();
+                case "list":
+                    listTasks();
+                    break;
 
-                System.out.println(line);
-                System.out.println("Nice! I've marked this task as done:");
-                System.out.println("  " + tasks[index]);
-                System.out.println(line);
-            } else if (input.startsWith("unmark ")) {//Unmark task
-                int index = Integer.parseInt(input.substring(7)) - 1;
-                tasks[index].unmark();
+                case "mark":
+                    markTask(input);
+                    break;
 
-                System.out.println(line);
-                System.out.println("OK, I've marked this task as not done yet:");
-                System.out.println("  " + tasks[index]);
-                System.out.println(line);
-            } else {//Add task
-                tasks[taskCount] = new Task(input);
-                taskCount++;
+                case "unmark":
+                    unmarkTask(input);
+                    break;
 
-                System.out.println(line);
-                System.out.println("added: " + input);
-                System.out.println(line);
+                case "todo":
+                    addTodo(input);
+                    break;
+
+                case "deadline":
+                    addDeadline(input);
+                    break;
+
+                case "event":
+                    addEvent(input);
+                    break;
+
+                default:
+                    // for now, ignore unknown commands (handled in Level-5)
+                    break;
             }
         }
+    }
 
+    // ===== UI =====
+    private static void greet() {
+        System.out.println(LINE);
+        System.out.println("Hello! I'm Orange");
+        System.out.println("What can I do for you?");
+        System.out.println(LINE);
+    }
+
+    private static void exit() {
+        System.out.println(LINE);
+        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println(LINE);
+    }
+
+    // ===== Command helpers =====
+    private static String getCommandWord(String input) {
+        return input.split(" ")[0];
+    }
+
+    // ===== Task actions =====
+    private static void listTasks() {
+        System.out.println(LINE);
+        System.out.println("Here are the tasks in your list:");
+        for (int i = 0; i < taskCount; i++) {
+            System.out.println((i + 1) + ". " + tasks[i]);
+        }
+        System.out.println(LINE);
+    }
+
+    private static void markTask(String input) {
+        int index = Integer.parseInt(input.split(" ")[1]) - 1;
+        tasks[index].markDone();
+
+        System.out.println(LINE);
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println("  " + tasks[index]);
+        System.out.println(LINE);
+    }
+
+    private static void unmarkTask(String input) {
+        int index = Integer.parseInt(input.split(" ")[1]) - 1;
+        tasks[index].unmark();
+
+        System.out.println(LINE);
+        System.out.println("OK, I've marked this task as not done yet:");
+        System.out.println("  " + tasks[index]);
+        System.out.println(LINE);
+    }
+
+    private static void addTodo(String input) {
+        String description = input.substring(5);
+        tasks[taskCount++] = new Todo(description);
+        printAddMessage();
+    }
+
+    private static void addDeadline(String input) {
+        String[] parts = input.substring(9).split(" /by ");
+        tasks[taskCount++] = new Deadline(parts[0], parts[1]);
+        printAddMessage();
+    }
+
+    private static void addEvent(String input) {
+        String[] parts = input.substring(6).split(" /from | /to ");
+        tasks[taskCount++] = new Event(parts[0], parts[1], parts[2]);
+        printAddMessage();
+    }
+
+    private static void printAddMessage() {
+        System.out.println(LINE);
+        System.out.println("Got it. I've added this task:");
+        System.out.println("  " + tasks[taskCount - 1]);
+        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        System.out.println(LINE);
     }
 }

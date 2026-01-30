@@ -45,6 +45,10 @@ public class Orange {
                     addEvent(input);
                     break;
 
+                case "delete":
+                    deleteTask(input);
+                    break;
+
                 default:
                     printError("What do you mean? \uD83C\uDFB5\"");
             }
@@ -155,5 +159,39 @@ public class Orange {
         System.out.println("Haha (´ー`) " + message);
         System.out.println(LINE);
     }
+    private static boolean isValidIndex(int index) {
+        return index >= 0 && index < taskCount;
+    }
+
+    private static void deleteTask(String input) {
+        String[] parts = input.split(" ");
+
+        if (parts.length < 2) {
+            printError("Please specify the task number to delete.");
+            return;
+        }
+
+        int index = Integer.parseInt(parts[1]) - 1;
+
+        if (!isValidIndex(index)) {
+            printError("The task number provided is invalid.");
+            return;
+        }
+
+        Task removedTask = tasks[index];
+
+        // shift tasks left
+        for (int i = index; i < taskCount - 1; i++) {
+            tasks[i] = tasks[i + 1];
+        }
+        taskCount--;
+
+        System.out.println(LINE);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + removedTask);
+        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        System.out.println(LINE);
+    }
+
 
 }

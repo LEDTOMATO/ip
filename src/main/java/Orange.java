@@ -46,8 +46,7 @@ public class Orange {
                     break;
 
                 default:
-                    // for now, ignore unknown commands (handled in Level-5)
-                    break;
+                    printError("What do you mean? \uD83C\uDFB5\"");
             }
         }
     }
@@ -102,19 +101,44 @@ public class Orange {
     }
 
     private static void addTodo(String input) {
+        if (input.length() <= 5) {
+            printError("Write details for todo task pls.");
+            return;
+        }
         String description = input.substring(5);
         tasks[taskCount++] = new Todo(description);
         printAddMessage();
     }
 
     private static void addDeadline(String input) {
-        String[] parts = input.substring(9).split(" /by ");
-        tasks[taskCount++] = new Deadline(parts[0], parts[1]);
-        printAddMessage();
+        if (input.length() <= 9) {
+            printError("Write details for deadline task pls.");
+            return;
+        }
+
+        try {
+            String[] parts = input.substring(9).split(" by ");
+            if (parts.length < 2) {
+                printError("Please use format: deadline [description] by [time]");
+                return;
+            }
+            tasks[taskCount++] = new Deadline(parts[0], parts[1]);
+            printAddMessage();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printError("Invalid format! Please use: deadline [description] by [time]");
+        }
     }
 
     private static void addEvent(String input) {
-        String[] parts = input.substring(6).split(" /from | /to ");
+        if (input.length() <= 5) {
+            printError("Write details for event task pls.");
+            return;
+        }
+        String[] parts = input.substring(6).split(" from | to ");
+        if (parts.length < 3) {
+            printError("Please use format: event [description] from [start] to [end]\nExample: event meeting from Monday 2pm to 3pm");
+            return;
+        }
         tasks[taskCount++] = new Event(parts[0], parts[1], parts[2]);
         printAddMessage();
     }
@@ -126,4 +150,10 @@ public class Orange {
         System.out.println("Now you have " + taskCount + " tasks in the list.");
         System.out.println(LINE);
     }
+    private static void printError(String message) {
+        System.out.println(LINE);
+        System.out.println("Haha (´ー`) " + message);
+        System.out.println(LINE);
+    }
+
 }

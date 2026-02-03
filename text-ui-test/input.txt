@@ -8,5 +8,6 @@ list
 todo clean house
 mark 4
 unmark 1
+delete 2
 list
 bye

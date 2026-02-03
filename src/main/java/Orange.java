@@ -85,7 +85,25 @@ public class Orange {
     }
 
     private static void markTask(String input) {
-        int index = Integer.parseInt(input.split(" ")[1]) - 1;
+        String[] parts = input.split(" ");
+
+        if (parts.length < 2) {
+            printError("Please specify the task number to mark.");
+            return;
+        }
+
+        int index = Integer.parseInt(parts[1]) - 1;
+
+        if (!isValidIndex(index)) {
+            printError("The task number provided is invalid.");
+            return;
+        }
+
+        if (tasks[index].isDone) {
+            printError("This task has already been marked as done.");
+            return;
+        }
+
         tasks[index].markDone();
 
         System.out.println(LINE);
@@ -95,7 +113,25 @@ public class Orange {
     }
 
     private static void unmarkTask(String input) {
-        int index = Integer.parseInt(input.split(" ")[1]) - 1;
+        String[] parts = input.split(" ");
+
+        if (parts.length < 2) {
+            printError("Please specify the task number to unmark.");
+            return;
+        }
+
+        int index = Integer.parseInt(parts[1]) - 1;
+
+        if (!isValidIndex(index)) {
+            printError("The task number provided is invalid.");
+            return;
+        }
+
+        if (!tasks[index].isDone) {
+            printError("This task is already marked as not done.");
+            return;
+        }
+
         tasks[index].unmark();
 
         System.out.println(LINE);

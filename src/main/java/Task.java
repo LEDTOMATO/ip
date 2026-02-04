@@ -28,4 +28,14 @@ public abstract class Task {
     public String toString() {
         return type.getSymbol() + getStatusIcon() + " " + description;
     }
+
+    /**
+     * Converts the task into a string suitable for file storage.
+     */
+    public String toFileString() {
+        return type.getSymbol().charAt(1) + " | "
+                + (isDone ? "1" : "0") + " | "
+                + description;
+    }
+
 }

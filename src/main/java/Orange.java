@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Orange is a task management chatbot that helps users manage
@@ -12,7 +15,12 @@ public class Orange {
     private static Task[] tasks = new Task[MAX_TASKS];
     private static int taskCount = 0;
 
+    private static final String DATA_FILE = "data/orange.txt";
+
+
     public static void main(String[] args) {
+        ensureDataFileExists();
+        loadTasks();
         greet();
 
         Scanner scanner = new Scanner(System.in);
@@ -24,6 +32,7 @@ public class Orange {
             switch (command) {
             case "bye":
                 exit();
+                saveTasks();
                 return;
 
             case "list":
@@ -59,9 +68,93 @@ public class Orange {
 
             }
         }
+
     }
 
-    // ===== UI =====
+    /**
+     * Ensures that the data file and its parent directory exist.
+     * Creates them if they do not exist.
+     */
+    private static void ensureDataFileExists() {
+        try {
+            File file = new File(DATA_FILE);
+            File parent = file.getParentFile();
+
+            if (parent != null && !parent.exists()) {
+                parent.mkdirs();
+            }
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            printError("Failed to initialize storage file.");
+        }
+    }
+    /**
+     * Loads tasks from the data file into memory.
+     */
+    private static void loadTasks() {
+        try (Scanner fileScanner = new Scanner(new File(DATA_FILE))) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                parseTaskFromFile(line);
+            }
+        } catch (IOException e) {
+            printError("Error loading tasks from file.");
+        }
+    }
+
+    /**
+     * Parses a single line from the data file and adds the task.
+     */
+    private static void parseTaskFromFile(String line) {
+        String[] parts = line.split(" \\| ");
+
+        if (parts.length < 3) {
+            return; // corrupted line → skip (stretch goal handled)
+        }
+
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
+
+        Task task = null;
+
+        switch (type) {
+            case "T":
+                task = new Todo(description);
+                break;
+            case "D":
+                task = new Deadline(description, parts[3]);
+                break;
+            case "E":
+                task = new Event(description, parts[3], parts[4]);
+                break;
+            default:
+                return;
+        }
+
+        if (isDone) {
+            task.markDone();
+        }
+
+        tasks[taskCount++] = task;
+    }
+
+    /**
+     * Saves all tasks to the data file.
+     */
+    private static void saveTasks() {
+        try (PrintWriter writer = new PrintWriter(DATA_FILE)) {
+            for (int i = 0; i < taskCount; i++) {
+                writer.println(tasks[i].toFileString());
+            }
+        } catch (IOException e) {
+            printError("Error saving tasks to file.");
+        }
+    }
+
     private static void greet() {
         System.out.println(LINE);
         System.out.println("Hello! I'm Orange");

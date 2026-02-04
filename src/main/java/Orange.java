@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/**
+ * Orange is a task management chatbot that helps users manage
+ * todos, deadlines, and events via text command.
+ * It reads and updates the task list, and displays list.
+ */
 public class Orange {
     private static final String LINE = "____________________________________________________________";
     private static final int MAX_TASKS = 100;
@@ -17,40 +22,41 @@ public class Orange {
             String command = getCommandWord(input);
 
             switch (command) {
-                case "bye":
-                    exit();
-                    return;
+            case "bye":
+                exit();
+                return;
 
-                case "list":
-                    listTasks();
-                    break;
+            case "list":
+                listTasks();
+                break;
 
-                case "mark":
-                    markTask(input);
-                    break;
+            case "mark":
+                markTask(input);
+                break;
 
-                case "unmark":
-                    unmarkTask(input);
-                    break;
+            case "unmark":
+                unmarkTask(input);
+                break;
 
-                case "todo":
-                    addTodo(input);
-                    break;
+            case "todo":
+                addTodo(input);
+                break;
 
-                case "deadline":
-                    addDeadline(input);
-                    break;
+            case "deadline":
+                addDeadline(input);
+                break;
 
-                case "event":
-                    addEvent(input);
-                    break;
+            case "event":
+                addEvent(input);
+                break;
 
-                case "delete":
-                    deleteTask(input);
-                    break;
+            case "delete":
+                deleteTask(input);
+                break;
 
-                default:
-                    printError("What do you mean? \uD83C\uDFB5\"");
+            default:
+                printError("What do you mean? \uD83C\uDFB5\"");
+
             }
         }
     }
@@ -69,12 +75,20 @@ public class Orange {
         System.out.println(LINE);
     }
 
-    // ===== Command helpers =====
+    /**
+     * Extracts the command word from the user's input.
+     *
+     * @param input the full user input string
+     * @return the command word (first word of the input)
+     */
     private static String getCommandWord(String input) {
         return input.split(" ")[0];
     }
 
-    // ===== Task actions =====
+    /**
+     * Displays all tasks currently stored in the task list,
+     * along with their index and completion status.
+     */
     private static void listTasks() {
         System.out.println(LINE);
         System.out.println("Here are the tasks in your list:");
@@ -84,6 +98,12 @@ public class Orange {
         System.out.println(LINE);
     }
 
+    /**
+     * Marks a task as completed based on the task number provided
+     * in the user input.
+     *
+     * @param input full user command containing the task index
+     */
     private static void markTask(String input) {
         String[] parts = input.split(" ");
 
@@ -112,6 +132,12 @@ public class Orange {
         System.out.println(LINE);
     }
 
+    /**
+     * Marks a previously completed task as not done,
+     * based on the task number provided in the user input.
+     *
+     * @param input full user command containing the task index
+     */
     private static void unmarkTask(String input) {
         String[] parts = input.split(" ");
 
@@ -140,6 +166,12 @@ public class Orange {
         System.out.println(LINE);
     }
 
+    /**
+     * Adds a new todo task using the description provided
+     * in the user input.
+     *
+     * @param input full user command containing the todo description
+     */
     private static void addTodo(String input) {
         if (input.length() <= 5) {
             printError("Write details for todo task pls.");
@@ -150,6 +182,12 @@ public class Orange {
         printAddMessage();
     }
 
+    /**
+     * Adds a new deadline task using the description and deadline time
+     * provided in the user input.
+     *
+     * @param input full user command containing the deadline details
+     */
     private static void addDeadline(String input) {
         if (input.length() <= 9) {
             printError("Write details for deadline task pls.");
@@ -169,6 +207,12 @@ public class Orange {
         }
     }
 
+    /**
+     * Adds a new event task using the description, start time,
+     * and end time provided in the user input.
+     *
+     * @param input full user command containing the event details
+     */
     private static void addEvent(String input) {
         if (input.length() <= 5) {
             printError("Write details for event task pls.");
@@ -183,6 +227,10 @@ public class Orange {
         printAddMessage();
     }
 
+    /**
+     * Prints a confirmation message after a task has been
+     * successfully added to the task list.
+     */
     private static void printAddMessage() {
         System.out.println(LINE);
         System.out.println("Got it. I've added this task:");
@@ -190,15 +238,34 @@ public class Orange {
         System.out.println("Now you have " + taskCount + " tasks in the list.");
         System.out.println(LINE);
     }
+
+    /**
+     * Displays an error message to the user in a formatted manner.
+     *
+     * @param message the error message to be displayed
+     */
     private static void printError(String message) {
         System.out.println(LINE);
         System.out.println("Haha (´ー`) " + message);
         System.out.println(LINE);
     }
+
+    /**
+     * Checks whether the given index refers to a valid task
+     * in the current task list.
+     *
+     * @param index zero-based task index
+     * @return true if the index is valid, false otherwise
+     */
     private static boolean isValidIndex(int index) {
         return index >= 0 && index < taskCount;
     }
 
+    /**
+     * Deletes a task from the task list based on user input.
+     *
+     * @param input full user command containing the task index
+     */
     private static void deleteTask(String input) {
         String[] parts = input.split(" ");
 

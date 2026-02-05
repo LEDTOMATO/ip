@@ -25,7 +25,7 @@ public class Orange {
 
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
+        while (scanner.hasNextLine()) {
             String input = scanner.nextLine();
             String command = getCommandWord(input);
 
@@ -106,31 +106,53 @@ public class Orange {
     }
 
     /**
-     * Parses a single line from the data file and adds the task.
+     * Parses a single line from the data file and reconstructs a task.
+     * Skips corrupted or invalid lines safely.
+     *
+     * @param line one line from the data file
      */
     private static void parseTaskFromFile(String line) {
         String[] parts = line.split(" \\| ");
 
         if (parts.length < 3) {
-            return; // corrupted line → skip (stretch goal handled)
+            return; // corrupted line → skip
         }
 
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
 
-        Task task = null;
+        Task task;
 
         switch (type) {
             case "T":
                 task = new Todo(description);
                 break;
+
             case "D":
-                task = new Deadline(description, parts[3]);
+                if (parts.length < 4) {
+                    return;
+                }
+                try {
+                    task = new Deadline(description, parts[3]);
+                } catch (Exception e) {
+                    return; // skip line
+                }
+
                 break;
+
             case "E":
-                task = new Event(description, parts[3], parts[4]);
+                if (parts.length < 5) {
+                    return;
+                }
+                try {
+                    task = new Event(description, parts[3], parts[4]);
+                } catch (Exception e) {
+                    return;
+                }
                 break;
+
+
             default:
                 return;
         }
@@ -141,6 +163,7 @@ public class Orange {
 
         tasks[taskCount++] = task;
     }
+
 
     /**
      * Saves all tasks to the data file.
@@ -287,18 +310,21 @@ public class Orange {
             return;
         }
 
+        String[] parts = input.substring(9).split(" by ");
+        if (parts.length < 2) {
+            printError("Please use format: deadline [description] by yyyy-MM-dd");
+            return;
+        }
+
         try {
-            String[] parts = input.substring(9).split(" by ");
-            if (parts.length < 2) {
-                printError("Please use format: deadline [description] by [time]");
-                return;
-            }
             tasks[taskCount++] = new Deadline(parts[0], parts[1]);
             printAddMessage();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            printError("Invalid format! Please use: deadline [description] by [time]");
+            saveTasks();
+        } catch (Exception e) {
+            printError("Invalid date format! Use yyyy-MM-dd (e.g. 2025-02-03)");
         }
     }
+
 
     /**
      * Adds a new event task using the description, start time,
@@ -311,14 +337,22 @@ public class Orange {
             printError("Write details for event task pls.");
             return;
         }
+
         String[] parts = input.substring(6).split(" from | to ");
         if (parts.length < 3) {
-            printError("Please use format: event [description] from [start] to [end]\nExample: event meeting from Monday 2pm to 3pm");
+            printError("Please use format: event [description] from yyyy-MM-dd to yyyy-MM-dd");
             return;
         }
-        tasks[taskCount++] = new Event(parts[0], parts[1], parts[2]);
-        printAddMessage();
+
+        try {
+            tasks[taskCount++] = new Event(parts[0], parts[1], parts[2]);
+            printAddMessage();
+            saveTasks();
+        } catch (Exception e) {
+            printError("Invalid date format! Use yyyy-MM-dd (e.g. 2025-02-03)");
+        }
     }
+
 
     /**
      * Prints a confirmation message after a task has been

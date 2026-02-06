@@ -1,6 +1,6 @@
 todo borrow book
-deadline return book by Sunday
-event meeting from Monday 2p.m. to Monday 4p.m.
+deadline return book by 2026-02-06
+event meeting from 2026-02-05 to 2026-02-06
 list
 mark 1
 mark 2

@@ -1,6 +1,6 @@
 todo borrow book
-deadline return book by 2026-02-06
-event meeting from 2026-02-05 to 2026-02-06
+deadline return book /by 2026-02-06
+event meeting /from 2026-02-05 /to 2026-02-06
 list
 mark 1
 mark 2
@@ -9,5 +9,6 @@ todo clean house
 mark 4
 unmark 1
 delete 2
+find meeting
 list
 bye

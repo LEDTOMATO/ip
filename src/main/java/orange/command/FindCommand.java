@@ -18,16 +18,14 @@ public class FindCommand extends Command {
      *
      * @param keyword the keyword to search for
      */
-    public FindCommand(String keyword) {
-        this.keyword = keyword;
-    }
+    public FindCommand(String keyword) {this.keyword = keyword;}
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
 
         if (matchingTasks.isEmpty()) {
-            ui.showMessage("No matching tasks found.");
+            ui.showMessage("No matching tasks found:(");
         } else {
             ui.showMessage("Here are the matching tasks in your list:");
             for (int i = 0; i < matchingTasks.size(); i++) {

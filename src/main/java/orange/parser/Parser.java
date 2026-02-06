@@ -61,6 +61,9 @@ public class Parser {
                 }
                 return new FindCommand(parts[1].trim());
 
+            case "cheer":
+                return new CheerCommand();
+
             default:
                 throw new Exception("What do you mean? 🎵");
         }

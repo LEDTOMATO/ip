@@ -10,6 +10,7 @@ public class TaskListTest {
 
     @Test
     public void addTask_singleTask_success() {
+        // Test adding a task increases size by 1 (positive case)
         TaskList tasks = new TaskList();
         Todo todo = new Todo("test task");
         tasks.addTask(todo);
@@ -20,6 +21,7 @@ public class TaskListTest {
 
     @Test
     public void deleteTask_validIndex_success() {
+        // Test deleting a valid task removes it from list (positive case)
         TaskList tasks = new TaskList();
         Todo todo = new Todo("test task");
         tasks.addTask(todo);
@@ -32,6 +34,7 @@ public class TaskListTest {
 
     @Test
     public void deleteTask_invalidIndex_throwsException() {
+        // Test deleting invalid index throws exception (negative case)
         TaskList tasks = new TaskList();
 
         assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -41,6 +44,7 @@ public class TaskListTest {
 
     @Test
     public void findTasks_matchingKeyword_returnsMatches() {
+        // Test finding tasks with matching keyword (positive case)
         TaskList tasks = new TaskList();
         tasks.addTask(new Todo("read book"));
         tasks.addTask(new Todo("return book"));
@@ -53,6 +57,7 @@ public class TaskListTest {
 
     @Test
     public void findTasks_noMatch_returnsEmpty() {
+        // Test finding with non-matching keyword returns empty (negative case)
         TaskList tasks = new TaskList();
         tasks.addTask(new Todo("read book"));
 

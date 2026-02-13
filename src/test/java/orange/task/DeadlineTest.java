@@ -10,6 +10,7 @@ public class DeadlineTest {
 
     @Test
     public void constructor_validInput_success() {
+        // Test that Deadline can be created with valid date (positive case)
         Deadline deadline = new Deadline("return book", "2025-03-15");
 
         assertEquals("return book", deadline.getDescription());
@@ -18,6 +19,7 @@ public class DeadlineTest {
 
     @Test
     public void constructor_invalidDate_throwsException() {
+        // Test that invalid date format throws exception (negative case)
         assertThrows(Exception.class, () -> {
             new Deadline("return book", "invalid-date");
         });
@@ -25,6 +27,7 @@ public class DeadlineTest {
 
     @Test
     public void toString_validDeadline_correctFormat() {
+        // Test that deadline displays with formatted date
         Deadline deadline = new Deadline("return book", "2025-03-15");
 
         String result = deadline.toString();
@@ -36,6 +39,7 @@ public class DeadlineTest {
 
     @Test
     public void toFileString_validDeadline_correctFormat() {
+        // Test file format includes ISO date format
         Deadline deadline = new Deadline("return book", "2025-03-15");
         deadline.markDone();
 

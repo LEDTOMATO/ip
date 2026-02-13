@@ -24,14 +24,14 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         try {
             Deadline deadline = new Deadline(description, by);
             tasks.addTask(deadline);
-            ui.showMessage("Got it. I've added this task:");
-            ui.showMessage("  " + deadline);
-            ui.showMessage("Now you have " + tasks.getSize() + " tasks in the list.");
             storage.save(tasks.getTasks());
+
+            return "Got it. I've added this task:\n  " + deadline + "\n"
+                    + "Now you have " + tasks.getSize() + " tasks in the list.";
         } catch (Exception e) {
             throw new Exception("Invalid date format! Use yyyy-MM-dd (e.g. 2025-02-03)");
         }

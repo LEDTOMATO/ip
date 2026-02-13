@@ -21,7 +21,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         int index = taskNumber - 1;
 
         if (index < 0 || index >= tasks.getSize()) {
@@ -29,9 +29,9 @@ public class DeleteCommand extends Command {
         }
 
         Task removedTask = tasks.deleteTask(index);
-        ui.showMessage("Noted. I've removed this task:");
-        ui.showMessage("  " + removedTask);
-        ui.showMessage("Now you have " + tasks.getSize() + " tasks in the list.");
         storage.save(tasks.getTasks());
+
+        return "Noted. I've removed this task:\n  " + removedTask + "\n"
+                + "Now you have " + tasks.getSize() + " tasks in the list.";
     }
 }

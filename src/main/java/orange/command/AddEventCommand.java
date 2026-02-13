@@ -27,14 +27,14 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         try {
             Event event = new Event(description, from, to);
             tasks.addTask(event);
-            ui.showMessage("Got it. I've added this task:");
-            ui.showMessage("  " + event);
-            ui.showMessage("Now you have " + tasks.getSize() + " tasks in the list.");
             storage.save(tasks.getTasks());
+
+            return "Got it. I've added this task:\n  " + event + "\n"
+                    + "Now you have " + tasks.getSize() + " tasks in the list.";
         } catch (Exception e) {
             throw new Exception("Invalid date format! Use yyyy-MM-dd (e.g. 2025-02-03)");
         }

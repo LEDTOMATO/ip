@@ -21,7 +21,7 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         int index = taskNumber - 1;
 
         if (index < 0 || index >= tasks.getSize()) {
@@ -35,8 +35,8 @@ public class UnmarkCommand extends Command {
         }
 
         task.unmark();
-        ui.showMessage("OK, I've marked this task as not done yet:");
-        ui.showMessage("  " + task);
         storage.save(tasks.getTasks());
+
+        return "OK, I've marked this task as not done yet:\n  " + task;
     }
 }

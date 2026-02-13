@@ -68,14 +68,12 @@ public class CheerCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
         if (quotes.isEmpty()) {
-            ui.showError("No motivational quotes available.");
-            return;
+            return "No motivational quotes available.";
         }
 
         int randomIndex = random.nextInt(quotes.size());
-        String quote = quotes.get(randomIndex);
-        ui.showMessage(quote);
+        return quotes.get(randomIndex);
     }
 }

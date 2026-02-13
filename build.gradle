@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
@@ -14,6 +15,11 @@ repositories {
 dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
+}
+
+javafx {
+    version = '21.0.1'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics']
 }
 
 test {
@@ -31,7 +37,7 @@ test {
 }
 
 application {
-    mainClass.set("orange.Orange")
+    mainClass.set("Launcher")
 }
 
 shadowJar {
@@ -40,9 +46,64 @@ shadowJar {
     archiveClassifier = null
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 run {
     standardInput = System.in
 }
+
+//plugins {
+//    id 'java'
+//    id 'application'
+//    id 'com.github.johnrengelman.shadow' version '7.1.2'
+//}
+//
+//group 'orange'
+//version '0.1'
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//dependencies {
+//    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
+//    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
+//}
+//
+//test {
+//    useJUnitPlatform()
+//
+//    testLogging {
+//        events "passed", "skipped", "failed"
+//
+//        showExceptions true
+//        exceptionFormat "full"
+//        showCauses true
+//        showStackTraces true
+//        showStandardStreams = false
+//    }
+//}
+//
+//application {
+//    mainClass.set("orange.Orange")
+//}
+//
+//shadowJar {
+//    archiveBaseName = "orange"
+//    archiveVersion = "0.1"
+//    archiveClassifier = null
+//}
+//
+//run {
+//    standardInput = System.in
+//}
 
 //plugins {
 //    id 'java'

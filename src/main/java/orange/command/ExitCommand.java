@@ -9,9 +9,9 @@ import orange.ui.Ui;
  */
 public class ExitCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
-        ui.showGoodbye();
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         storage.save(tasks.getTasks());
+        return "Bye. Hope to see you again soon!";
     }
 
     @Override

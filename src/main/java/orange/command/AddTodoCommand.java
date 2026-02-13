@@ -21,12 +21,12 @@ public class AddTodoCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         Todo todo = new Todo(description);
         tasks.addTask(todo);
-        ui.showMessage("Got it. I've added this task:");
-        ui.showMessage("  " + todo);
-        ui.showMessage("Now you have " + tasks.getSize() + " tasks in the list.");
         storage.save(tasks.getTasks());
+
+        return "Got it. I've added this task:\n  " + todo + "\n"
+                + "Now you have " + tasks.getSize() + " tasks in the list.";
     }
 }

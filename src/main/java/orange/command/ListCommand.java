@@ -10,10 +10,15 @@ import orange.ui.Ui;
  */
 public class ListCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showMessage("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.getSize(); i++) {
-            ui.showMessage((i + 1) + ". " + tasks.getTask(i));
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        if (tasks.getSize() == 0) {
+            return "Your task list is empty!";
         }
+
+        StringBuilder response = new StringBuilder("Here are the tasks in your list:\n");
+        for (int i = 0; i < tasks.getSize(); i++) {
+            response.append((i + 1)).append(". ").append(tasks.getTask(i)).append("\n");
+        }
+        return response.toString();
     }
 }

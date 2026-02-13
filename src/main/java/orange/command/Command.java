@@ -16,7 +16,7 @@ public abstract class Command {
      * @param storage the storage handler
      * @throws Exception if an error occurs during execution
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws Exception;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws Exception;
 
     /**
      * Checks if this command should exit the program.

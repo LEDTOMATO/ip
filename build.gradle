@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'orange'
-version '0.1'
+version '0.2'
 
 repositories {
     mavenCentral()
@@ -42,7 +42,7 @@ application {
 
 shadowJar {
     archiveBaseName = "orange"
-    archiveVersion = "0.1"
+    archiveVersion = "0.2"
     archiveClassifier = null
 }
 

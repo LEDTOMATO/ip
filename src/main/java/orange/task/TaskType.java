@@ -6,7 +6,8 @@ package orange.task;
 public enum TaskType {
     TODO("[T]"),
     DEADLINE("[D]"),
-    EVENT("[E]");
+    EVENT("[E]"),
+    PLACE("[P]");
 
     private final String symbol;
 

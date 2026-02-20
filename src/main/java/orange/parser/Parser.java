@@ -100,6 +100,9 @@ public class Parser {
         case "cheer":
             return new CheerCommand();
 
+        case "place":
+            return parsePlace(parts);
+
         default:
             throw new Exception("What do you mean? 🎵");
         }
@@ -259,5 +262,25 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new Exception("Invalid task number format.");
         }
+    }
+
+    private static Command parsePlace(String[] parts) throws Exception {
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new Exception("Write details for place pls.");
+        }
+
+        // Format: place <name> /at <location> /rating <1-5> /notes <notes>
+        String[] placeParts = parts[1].split(" /at | /rating | /notes ");
+
+        if (placeParts.length < 3) {
+            throw new Exception("Please use format: place <name> /at <location> /rating <1-5> /notes <notes>");
+        }
+
+        String name = placeParts[0].trim();
+        String location = placeParts[1].trim();
+        int rating = Integer.parseInt(placeParts[2].trim());
+        String notes = placeParts.length > 3 ? placeParts[3].trim() : "";
+
+        return new AddPlaceCommand(name, location, rating, notes);
     }
 }

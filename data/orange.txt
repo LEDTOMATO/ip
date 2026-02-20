@@ -5,3 +5,5 @@ T | 0 | 11
 T | 0 | fffss
 T | 0 | hhh
 D | 0 | c | 2025-12-22
+P | 0 | Marina Bay Sands | 10 Bayfront Avenue, 018956 | 5 | Great view
+P | 0 | Lau Pa Sat | Raffles Quay | 4 | Good food

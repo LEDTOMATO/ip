@@ -1,9 +1,6 @@
 package orange.storage;
 
-import orange.task.Deadline;
-import orange.task.Event;
-import orange.task.Task;
-import orange.task.Todo;
+import orange.task.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -111,6 +108,20 @@ public class Storage {
                 if (parts.length >= 5) {
                     try {
                         task = new Event(description, parts[3], parts[4]);
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+                break;
+
+            case "P":
+                if (parts.length >= 6) {
+                    try {
+                        String desc = parts[2];
+                        String loc = parts[3];
+                        int rat = Integer.parseInt(parts[4]);
+                        String note = parts[5];
+                        task = new Place(desc, loc, rat, note);
                     } catch (Exception e) {
                         return null;
                     }

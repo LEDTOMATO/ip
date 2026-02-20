@@ -135,6 +135,8 @@ public class Storage {
      * @throws IOException if file cannot be written
      */
     public void save(ArrayList<Task> tasks) throws IOException {
+        assert tasks != null : "Task list should not be null";
+
         try (PrintWriter writer = new PrintWriter(filePath)) {
             for (Task task : tasks) {
                 writer.println(task.toFileString());

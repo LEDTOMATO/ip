@@ -15,57 +15,60 @@ public class Parser {
      * @throws Exception if the command is invalid
      */
     public static Command parse(String fullCommand) throws Exception {
+        assert fullCommand != null : "Command string should not be null";
+        assert !fullCommand.trim().isEmpty() : "Command should not be empty";
+
         String[] parts = fullCommand.trim().split(" ", 2);
         String commandWord = parts[0].toLowerCase();
 
         switch (commandWord) {
-            case "bye":
-                return new ExitCommand();
+        case "bye":
+            return new ExitCommand();
 
-            case "list":
-                return new ListCommand();
+        case "list":
+            return new ListCommand();
 
-            case "mark":
-                if (parts.length < 2) {
-                    throw new Exception("Please specify the task number to mark.");
-                }
-                return new MarkCommand(Integer.parseInt(parts[1]));
+        case "mark":
+            if (parts.length < 2) {
+                throw new Exception("Please specify the task number to mark.");
+            }
+            return new MarkCommand(Integer.parseInt(parts[1]));
 
-            case "unmark":
-                if (parts.length < 2) {
-                    throw new Exception("Please specify the task number to unmark.");
-                }
-                return new UnmarkCommand(Integer.parseInt(parts[1]));
+        case "unmark":
+            if (parts.length < 2) {
+                throw new Exception("Please specify the task number to unmark.");
+            }
+            return new UnmarkCommand(Integer.parseInt(parts[1]));
 
-            case "todo":
-                if (parts.length < 2 || parts[1].trim().isEmpty()) {
-                    throw new Exception("Write details for todo task pls.");
-                }
-                return new AddTodoCommand(parts[1].trim());
+        case "todo":
+            if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                throw new Exception("Write details for todo task pls.");
+            }
+            return new AddTodoCommand(parts[1].trim());
 
-            case "deadline":
-                return parseDeadline(parts);
+        case "deadline":
+            return parseDeadline(parts);
 
-            case "event":
-                return parseEvent(parts);
+        case "event":
+            return parseEvent(parts);
 
-            case "delete":
-                if (parts.length < 2) {
-                    throw new Exception("Please specify the task number to delete.");
-                }
-                return new DeleteCommand(Integer.parseInt(parts[1]));
+        case "delete":
+            if (parts.length < 2) {
+                throw new Exception("Please specify the task number to delete.");
+            }
+            return new DeleteCommand(Integer.parseInt(parts[1]));
 
-            case "find":
-                if (parts.length < 2 || parts[1].trim().isEmpty()) {
-                    throw new Exception("Please specify a keyword to search for.");
-                }
-                return new FindCommand(parts[1].trim());
+        case "find":
+            if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                throw new Exception("Please specify a keyword to search for.");
+            }
+            return new FindCommand(parts[1].trim());
 
-            case "cheer":
-                return new CheerCommand();
+        case "cheer":
+            return new CheerCommand();
 
-            default:
-                throw new Exception("What do you mean? 🎵");
+        default:
+            throw new Exception("What do you mean? 🎵");
         }
     }
 

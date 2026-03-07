@@ -31,9 +31,13 @@ public class MainWindow extends AnchorPane {
         // Bind scroll to always show latest messages
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
-        // Show welcome message
+        // Show welcome message with orange theme
+        String welcomeMessage = "🍊 Hello! I'm Orange!\n\n" +
+                "Your friendly task manager is ready to help.\n" +
+                "What would you like to do today? 😊";
+
         dialogContainer.getChildren().add(
-                DialogBox.getOrangeDialog("Hello! I'm Orange\nWhat can I do for you?", orangeImage)
+                DialogBox.getOrangeDialog(welcomeMessage, orangeImage)
         );
     }
 
@@ -49,13 +53,24 @@ public class MainWindow extends AnchorPane {
         }
 
         String response = orange.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getOrangeDialog(response, orangeImage)
-        );
-        userInput.clear();
 
-        // Force scroll to bottom
+        // Add user message
+        dialogContainer.getChildren().add(
+                DialogBox.getUserDialog(input, userImage)
+        );
+
+        // Add Orange response (with error styling if needed)
+        if (response.startsWith("Error:") || response.contains("Oops!") || response.contains("⚠")) {
+            dialogContainer.getChildren().add(
+                    DialogBox.getErrorDialog(response, orangeImage)
+            );
+        } else {
+            dialogContainer.getChildren().add(
+                    DialogBox.getOrangeDialog(response, orangeImage)
+            );
+        }
+
+        userInput.clear();
         scrollPane.setVvalue(1.0);
     }
 }

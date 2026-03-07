@@ -20,8 +20,21 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+
             stage.setScene(scene);
-            stage.setTitle("Orange Task Manager");
+            stage.setTitle("🍊 Orange - Your Personal Task Manager");
+
+            // Set minimum size
+            stage.setMinHeight(400);
+            stage.setMinWidth(350);
+
+            // Set preferred size
+            stage.setWidth(450);
+            stage.setHeight(650);
+
+            // Make it resizable
+            stage.setResizable(true);
+
             fxmlLoader.<MainWindow>getController().setOrange(orange);
             stage.show();
         } catch (IOException e) {

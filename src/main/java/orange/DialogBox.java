@@ -43,13 +43,35 @@ public class DialogBox extends HBox {
         setAlignment(Pos.TOP_LEFT);
     }
 
+    /**
+     * Creates a user dialog box (right-aligned).
+     */
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        var db = new DialogBox(text, img);
+        // User messages - blue/gray background
+        db.dialog.setStyle("-fx-background-color: #E3F2FD; -fx-background-radius: 15; -fx-padding: 12; -fx-font-size: 13px; -fx-border-color: #BBDEFB; -fx-border-radius: 15; -fx-border-width: 1;");
+        return db;
     }
 
+    /**
+     * Creates an Orange dialog box (left-aligned, orange theme).
+     */
     public static DialogBox getOrangeDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
+        // Orange messages - orange background
+        db.dialog.setStyle("-fx-background-color: #FFE5CC; -fx-background-radius: 15; -fx-padding: 12; -fx-font-size: 13px; -fx-border-color: #FF8C00; -fx-border-radius: 15; -fx-border-width: 2;");
+        return db;
+    }
+
+    /**
+     * Creates an error dialog with red styling.
+     */
+    public static DialogBox getErrorDialog(String text, Image img) {
+        var db = new DialogBox(text, img);
+        db.flip();
+        // Error messages - red background
+        db.dialog.setStyle("-fx-background-color: #FFEBEE; -fx-background-radius: 15; -fx-padding: 12; -fx-font-size: 13px; -fx-border-color: #F44336; -fx-border-radius: 15; -fx-border-width: 2; -fx-text-fill: #C62828; -fx-font-weight: bold;");
         return db;
     }
 }

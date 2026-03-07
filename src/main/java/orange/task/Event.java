@@ -21,6 +21,15 @@ public class Event extends Task {
         super(description, TaskType.EVENT);
         this.from = LocalDate.parse(from);
         this.to = LocalDate.parse(to);
+
+        // Validate date order
+        if (this.to.isBefore(this.from)) {
+            throw new IllegalArgumentException("End date cannot be before start date!");
+        }
+
+        if (this.to.equals(this.from)) {
+            throw new IllegalArgumentException("Start and end dates cannot be the same!");
+        }
     }
 
     @Override

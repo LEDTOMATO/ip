@@ -18,6 +18,11 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description, TaskType.DEADLINE);
         this.by = LocalDate.parse(by);
+
+        // Optional: Warn about past dates
+        if (this.by.isBefore(LocalDate.now())) {
+            System.err.println("⚠️  Warning: This deadline is in the past!");
+        }
     }
 
     @Override

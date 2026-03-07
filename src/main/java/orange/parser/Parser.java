@@ -20,6 +20,13 @@ public class Parser {
      * @throws Exception if the command is invalid
      */
     public static Command parse(String fullCommand) throws Exception {
+        // Handle multiple spaces
+        fullCommand = fullCommand.trim().replaceAll("\\s+", " ");
+
+        if (fullCommand.isEmpty()) {
+            throw new Exception("Please enter a command!");
+        }
+
         validateInput(fullCommand);
 
         String[] parts = splitCommand(fullCommand);
